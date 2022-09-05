@@ -1,0 +1,168 @@
+GET http://localhost:8080/stats?start=1663675200&end=1663675201&unique=true
+
+<> 2022-09-20T153401.200.json
+
+###
+
+GET http://localhost:8080/stats?start=1663675199&end=1663675201&unique=true
+
+<> 2022-09-20T153346.200.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201&unique=true
+
+<> 2022-09-20T153312.200.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201&unique=false
+
+<> 2022-09-20T153304.200.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201&unique=true
+
+<> 2022-09-20T153134.200.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201&unique=true
+
+<> 2022-09-20T152439.500.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201&unique=true
+
+<> 2022-09-20T152229.500.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201&unique=true
+
+<> 2022-09-20T152137.200.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201&unique=false
+
+<> 2022-09-20T152125.200.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201&unique=false
+
+<> 2022-09-20T151804.200.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201&unique=true
+
+<> 2022-09-20T151739.200.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201&unique=true
+
+<> 2022-09-20T151715.200.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201&unique=true
+
+<> 2022-09-20T151658.200.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201&unique=true
+
+<> 2022-09-20T151646.200.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201&unique=true
+
+<> 2022-09-20T151559.200.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201&unique=true
+
+<> 2022-09-20T151158.200.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201&unique=true
+
+<> 2022-09-20T150808.200.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201&unique=true
+
+<> 2022-09-20T150726.200.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201
+
+<> 2022-09-20T150714.200.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201
+
+<> 2022-09-20T150637.200.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201
+
+<> 2022-09-20T150419.500.json
+
+###
+
+GET http://localhost:8080/stats?start=0&end=1663675201
+
+<> 2022-09-20T150219.500.json
+
+###
+
+POST http://localhost:8080/hit
+Content-Type: application/json
+
+{
+  "app": "test app",
+  "uri": "/app/1",
+  "ip": "128.1.2.11",
+  "timestamp": 1663675200
+}
+
+###
+
+POST http://localhost:8080/hit
+Content-Type: application/json
+
+{
+  "app": "test app",
+  "uri": "/app/1",
+  "ip": "128.1.2.11",
+  "timestamp": 1663675200
+}
+
+###
+
+POST http://localhost:8080/hit
+Content-Type: application/json
+
+{
+  "app": "test app",
+  "uri": "/app",
+  "ip": "128.1.2.11",
+  "timestamp": 1663675199
+}
+
+###
+
