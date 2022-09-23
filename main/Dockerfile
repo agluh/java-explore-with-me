@@ -1,4 +1,4 @@
-FROM openjdk:17.0.2-jdk-slim-buster
+FROM openjdk:11-jdk-slim-buster
 RUN apt upgrade && addgroup main --disabled-password && \
     adduser main --ingroup main && \
     mkdir -p /app

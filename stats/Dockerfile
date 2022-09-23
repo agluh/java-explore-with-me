@@ -1,4 +1,4 @@
-FROM openjdk:17.0.2-jdk-slim-buster
+FROM openjdk:11-jdk-slim-buster
 RUN apt upgrade && addgroup stats --disabled-password && \
     adduser stats --ingroup stats && \
     mkdir -p /app
