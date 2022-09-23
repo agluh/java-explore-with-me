@@ -2,7 +2,9 @@ package ru.practicum.explorewithme.main.service.api.exception;
 
 public class CategoryNotFoundException extends EntityNotFoundException {
 
-    public CategoryNotFoundException() {}
+    public CategoryNotFoundException() {
+
+    }
 
     public CategoryNotFoundException(String message) {
         super(message);

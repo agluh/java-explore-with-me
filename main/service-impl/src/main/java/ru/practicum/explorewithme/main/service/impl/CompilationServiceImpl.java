@@ -81,7 +81,7 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Override
     public List<EventsCompilation> findEventsCompilations(Boolean pinned, int from, int size) {
-        if(pinned != null) {
+        if (pinned != null) {
             return repository.findAllByPinned(pinned, PageRequest.of(from, size));
         }
 

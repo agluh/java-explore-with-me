@@ -30,7 +30,9 @@ import lombok.ToString;
 public class ParticipationRequest {
 
     /* Needed for Hibernate */
-    protected ParticipationRequest() {}
+    protected ParticipationRequest() {
+
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,7 +3,6 @@ package ru.practicum.explorewithme.main.service.impl;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -264,7 +263,7 @@ public class EventServiceImpl implements EventService {
         if (eventOpt.isPresent()) {
             Event event = eventOpt.get();
 
-            if(event.getState() != EventState.PUBLISHED) {
+            if (event.getState() != EventState.PUBLISHED) {
                 throw new EventNotFoundException();
             }
 

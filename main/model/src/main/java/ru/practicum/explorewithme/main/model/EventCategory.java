@@ -22,7 +22,9 @@ import lombok.ToString;
 public class EventCategory {
 
     /* Needed for Hibernate */
-    protected EventCategory() {}
+    protected EventCategory() {
+
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

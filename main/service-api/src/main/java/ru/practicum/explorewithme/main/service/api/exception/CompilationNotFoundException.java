@@ -3,6 +3,7 @@ package ru.practicum.explorewithme.main.service.api.exception;
 public class CompilationNotFoundException extends EntityNotFoundException {
 
     public CompilationNotFoundException() {
+
     }
 
     public CompilationNotFoundException(String message) {

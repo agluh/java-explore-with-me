@@ -34,7 +34,9 @@ import lombok.ToString;
 public class Event {
 
     /* Needed for Hibernate */
-    protected Event() {}
+    protected Event() {
+
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,8 +58,8 @@ public class Event {
 
     @Embedded
     @AttributeOverrides({
-        @AttributeOverride( name = "lat", column = @Column(name = "location_lat")),
-        @AttributeOverride( name = "lng", column = @Column(name = "location_lng")),
+        @AttributeOverride(name = "lat", column = @Column(name = "location_lat")),
+        @AttributeOverride(name = "lng", column = @Column(name = "location_lng")),
     })
     private Location location;
 

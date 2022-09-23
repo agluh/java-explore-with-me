@@ -42,7 +42,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         User user = userService.findUser(userId)
             .orElseThrow(() -> new UserNotFoundException("not found"));
 
-        if(event.getInitiator().equals(user)) {
+        if (event.getInitiator().equals(user)) {
             throw new EventInitiatorCanNotBeParticipantException("initiator can not participate");
         }
 
@@ -65,11 +65,11 @@ public class ParticipationServiceImpl implements ParticipationService {
             .withCreatedOn(LocalDateTime.now(clock))
             .build();
 
-        if(!event.isRequestModeration()) {
+        if (!event.isRequestModeration()) {
             request.setStatus(ParticipationStatus.CONFIRMED);
         }
 
-        if(repository.getParticipationRequestOfUserInEvent(userId, eventId).isPresent()) {
+        if (repository.getParticipationRequestOfUserInEvent(userId, eventId).isPresent()) {
             throw new DuplicatedParticipationRequestsAreNotAllowedException(
                 "user is a participant already");
         }

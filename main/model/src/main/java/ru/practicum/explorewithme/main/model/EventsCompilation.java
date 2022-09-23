@@ -30,7 +30,9 @@ import lombok.ToString;
 public class EventsCompilation {
 
     /* Needed for Hibernate */
-    protected EventsCompilation() {}
+    protected EventsCompilation() {
+
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

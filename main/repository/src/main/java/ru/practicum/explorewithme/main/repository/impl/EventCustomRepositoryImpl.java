@@ -72,7 +72,7 @@ public class EventCustomRepositoryImpl implements EventCustomRepository {
             );
         }
 
-        if(sort.equals("EVENT_DATE")) {
+        if (sort.equals("EVENT_DATE")) {
             cq.orderBy(cb.desc(event.get("eventDate")));
         } else if (sort.equals("VIEWS")) {
             cq.orderBy(cb.desc(event.get("views")));

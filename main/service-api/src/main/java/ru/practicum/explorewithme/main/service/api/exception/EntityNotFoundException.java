@@ -2,7 +2,9 @@ package ru.practicum.explorewithme.main.service.api.exception;
 
 public class EntityNotFoundException extends AppException {
 
-    public EntityNotFoundException() {}
+    public EntityNotFoundException() {
+
+    }
 
     public EntityNotFoundException(String message) {
         super(message);

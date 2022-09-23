@@ -19,7 +19,9 @@ import lombok.ToString;
 public class User {
 
     /* Needed for Hibernate */
-    protected User() {}
+    protected User() {
+
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

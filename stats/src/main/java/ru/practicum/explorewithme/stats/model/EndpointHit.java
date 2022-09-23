@@ -20,7 +20,9 @@ import lombok.ToString;
 public class EndpointHit {
 
     /* Needed for Hibernate */
-    protected EndpointHit() {}
+    protected EndpointHit() {
+
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
