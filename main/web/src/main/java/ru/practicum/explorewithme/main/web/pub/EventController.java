@@ -2,6 +2,7 @@ package ru.practicum.explorewithme.main.web.pub;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -48,7 +49,7 @@ public class EventController {
                 onlyAvailable, sort.name(), from, size)
             .stream()
             .map(mapper::toShortDto)
-            .toList();
+            .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")

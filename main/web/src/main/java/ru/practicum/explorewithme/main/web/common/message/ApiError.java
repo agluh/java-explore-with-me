@@ -3,6 +3,7 @@ package ru.practicum.explorewithme.main.web.common.message;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,7 +28,7 @@ public class ApiError {
         return new ApiError(
             Arrays.stream(e.getStackTrace())
                 .map(StackTraceElement::toString)
-                .toList(),
+                    .collect(Collectors.toList()),
             e.getMessage(),
             reason,
             status,

@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.main.web.admin;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -35,7 +36,7 @@ public class UserController {
         return service.findUsers(ids, from, size)
             .stream()
             .map(mapper::toDto)
-            .toList();
+            .collect(Collectors.toList());
     }
 
     @PostMapping

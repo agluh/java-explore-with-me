@@ -1,8 +1,8 @@
 package ru.practicum.explorewithme.main.web.admin;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -53,7 +53,7 @@ public class EventController {
             size
         ).stream()
             .map(mapper::toDto)
-            .toList();
+            .collect(Collectors.toList());
     }
 
     @PutMapping("/{id}")

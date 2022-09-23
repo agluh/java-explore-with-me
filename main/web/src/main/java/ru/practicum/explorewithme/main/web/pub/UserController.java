@@ -1,11 +1,10 @@
 package ru.practicum.explorewithme.main.web.pub;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,7 +45,7 @@ public class UserController {
         return eventService.getEventsOfUser(userId, from, size)
             .stream()
             .map(eventMapper::toShortDto)
-            .toList();
+            .collect(Collectors.toList());
     }
 
     @PatchMapping("/events")
@@ -115,7 +114,7 @@ public class UserController {
         return participationService.getParticipationRequestsOfEvent(userId, eventId)
             .stream()
             .map(requestMapper::toDto)
-            .toList();
+            .collect(Collectors.toList());
     }
 
     @PatchMapping("/events/{eventId}/requests/{requestId}/confirm")
@@ -143,7 +142,7 @@ public class UserController {
         return participationService.getParticipationRequestsOfUser(userId)
             .stream()
             .map(requestMapper::toDto)
-            .toList();
+            .collect(Collectors.toList());
     }
 
     @PostMapping("/requests")

@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.main.web.pub;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +29,7 @@ public class CategoriesController {
         return service.listCategories(from, size)
             .stream()
             .map(mapper::toDto)
-            .toList();
+            .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")

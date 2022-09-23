@@ -1,8 +1,8 @@
 package ru.practicum.explorewithme.main.web.common.mapping;
 
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.practicum.explorewithme.main.model.Event;
 import ru.practicum.explorewithme.main.model.EventsCompilation;
 import ru.practicum.explorewithme.main.web.common.message.CompilationDto;
 
@@ -17,7 +17,8 @@ public class CompilationMapper {
             .withId(compilation.getId())
             .withTitle(compilation.getTitle())
             .withPinned(compilation.isPinned())
-            .withEvents(compilation.getEvents().stream().map(eventMapper::toShortDto).toList())
+            .withEvents(compilation.getEvents().stream().map(eventMapper::toShortDto)
+                .collect(Collectors.toList()))
             .build();
     }
 }
