@@ -1,8 +1,11 @@
 package ru.practicum.explorewithme.main.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -13,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -90,7 +94,20 @@ public class Event {
 
     private long views;
 
+    @OneToMany(
+        cascade = CascadeType.ALL,
+        orphanRemoval = true,
+        mappedBy = "event"
+    )
+    @Builder.Default
+    private List<Comment> comments = new ArrayList<>();
+
     public void increaseViews() {
         views++;
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
+        comment.setEvent(this);
     }
 }

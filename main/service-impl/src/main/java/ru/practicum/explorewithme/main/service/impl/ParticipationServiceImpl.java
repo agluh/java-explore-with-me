@@ -149,12 +149,20 @@ public class ParticipationServiceImpl implements ParticipationService {
 
     private void rejectAllPendingParticipationRequestsOfEvent(long eventId) {
         List<ParticipationRequest> pendingRequests =
-            repository.findAllPendingParticipationRequestsOfEvent(eventId);
+            repository.findAllParticipationRequestsOfEventWithStatus(eventId,
+                ParticipationStatus.PENDING);
 
         for (ParticipationRequest r : pendingRequests) {
             r.setStatus(ParticipationStatus.REJECTED);
         }
 
         repository.saveAll(pendingRequests);
+    }
+
+    @Override
+    public List<ParticipationRequest> getParticipationRequestsOfEventWithStatus(long eventId,
+        ParticipationStatus status) {
+        return repository.findAllParticipationRequestsOfEventWithStatus(eventId,
+                ParticipationStatus.CONFIRMED);
     }
 }

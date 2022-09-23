@@ -3,6 +3,7 @@ package ru.practicum.explorewithme.main.service.api;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import ru.practicum.explorewithme.main.model.Comment;
 import ru.practicum.explorewithme.main.model.Event;
 import ru.practicum.explorewithme.main.model.EventState;
 import ru.practicum.explorewithme.main.service.api.contract.AdminUpdateEventRequest;
@@ -114,4 +115,9 @@ public interface EventService {
     );
 
     void updateCountOfConfirmedParticipants(long eventId, int count);
+
+    /**
+     * Adds a comment to event.
+     */
+    void addComment(long eventId, Comment comment);
 }

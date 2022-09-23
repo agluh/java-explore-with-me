@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.practicum.explorewithme.main.service.api.CommentService;
 import ru.practicum.explorewithme.main.service.api.EventService;
 import ru.practicum.explorewithme.main.service.api.ParticipationService;
 import ru.practicum.explorewithme.main.service.api.contract.NewEventRequest;
@@ -23,6 +24,7 @@ import ru.practicum.explorewithme.main.web.common.mapping.ParticipationRequestMa
 import ru.practicum.explorewithme.main.web.common.message.EventFullDto;
 import ru.practicum.explorewithme.main.web.common.message.EventShortDto;
 import ru.practicum.explorewithme.main.web.common.message.ParticipationRequestDto;
+import ru.practicum.explorewithme.main.web.pub.message.NewCommentDto;
 import ru.practicum.explorewithme.main.web.pub.message.NewEventDto;
 import ru.practicum.explorewithme.main.web.pub.message.UpdateEventDto;
 
@@ -33,6 +35,7 @@ import ru.practicum.explorewithme.main.web.pub.message.UpdateEventDto;
 public class UserController {
     private final EventService eventService;
     private final ParticipationService participationService;
+    private final CommentService commentService;
     private final EventMapper eventMapper;
     private final ParticipationRequestMapper requestMapper;
 
@@ -160,5 +163,14 @@ public class UserController {
     ) {
         return requestMapper.toDto(
             participationService.cancelParticipationRequest(userId, requestId));
+    }
+
+    @PostMapping("/events/{eventId}/comments")
+    public void addComment(
+        @PathVariable("id") long userId,
+        @PathVariable("eventId") long eventId,
+        @RequestBody @Valid NewCommentDto request
+    ) {
+        commentService.commentEvent(userId, eventId, request.getComment());
     }
 }

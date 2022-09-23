@@ -2,6 +2,7 @@ package ru.practicum.explorewithme.main.service.api;
 
 import java.util.List;
 import ru.practicum.explorewithme.main.model.ParticipationRequest;
+import ru.practicum.explorewithme.main.model.ParticipationStatus;
 
 public interface ParticipationService {
 
@@ -34,4 +35,10 @@ public interface ParticipationService {
      * Retrieves list of participation requests for event.
      */
     List<ParticipationRequest> getParticipationRequestsOfEvent(long userId, long eventId);
+
+    /**
+     * Retrieves list of participation requests with status.
+     */
+    List<ParticipationRequest> getParticipationRequestsOfEventWithStatus(long eventId,
+        ParticipationStatus status);
 }

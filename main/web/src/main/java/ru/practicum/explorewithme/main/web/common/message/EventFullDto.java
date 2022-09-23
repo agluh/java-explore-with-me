@@ -2,6 +2,7 @@ package ru.practicum.explorewithme.main.web.common.message;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -51,4 +52,6 @@ public class EventFullDto {
     private LocalDateTime publishedOn;
 
     private long views;
+
+    private List<CommentDto> comments;
 }

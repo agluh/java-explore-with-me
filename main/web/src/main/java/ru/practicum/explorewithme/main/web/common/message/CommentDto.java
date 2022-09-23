@@ -13,24 +13,12 @@ import lombok.ToString;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class EventShortDto {
+public class CommentDto {
 
-    private long id;
+    private UserShortDto author;
 
-    private String title;
-
-    private String annotation;
-
-    private CategoryDto category;
+    private String comment;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime eventDate;
-
-    private UserShortDto initiator;
-
-    private boolean paid;
-
-    private long views;
-
-    private int commentsCount;
+    private LocalDateTime createdAt;
 }

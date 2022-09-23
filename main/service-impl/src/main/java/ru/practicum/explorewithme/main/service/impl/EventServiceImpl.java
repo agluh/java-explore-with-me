@@ -8,6 +8,7 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import ru.practicum.explorewithme.main.model.Comment;
 import ru.practicum.explorewithme.main.model.Event;
 import ru.practicum.explorewithme.main.model.EventCategory;
 import ru.practicum.explorewithme.main.model.EventState;
@@ -309,6 +310,16 @@ public class EventServiceImpl implements EventService {
             -> new EventNotFoundException("not found"));
 
         event.setConfirmedRequests(count);
+
+        repository.save(event);
+    }
+
+    @Override
+    public void addComment(long eventId, Comment comment) {
+        Event event = repository.findById(eventId).orElseThrow(()
+            -> new EventNotFoundException("not found"));
+
+        event.addComment(comment);
 
         repository.save(event);
     }

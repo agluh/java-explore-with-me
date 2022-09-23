@@ -1,5 +1,6 @@
 package ru.practicum.explorewithme.main.web.common.mapping;
 
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.practicum.explorewithme.main.model.Event;
@@ -12,6 +13,7 @@ public class EventMapper {
 
     private final CategoryMapper categoryMapper;
     private final UserMapper userMapper;
+    private final CommentMapper commentMapper;
 
     public EventFullDto toDto(Event event) {
         return EventFullDto.builder()
@@ -31,6 +33,9 @@ public class EventMapper {
             .withCreatedOn(event.getCreatedOn())
             .withPublishedOn(event.getPublishedOn())
             .withViews(event.getViews())
+            .withComments(event.getComments().stream()
+                .map(commentMapper::toDto)
+                .collect(Collectors.toList()))
             .build();
     }
 
@@ -44,6 +49,7 @@ public class EventMapper {
             .withPaid(event.isPaid())
             .withInitiator(userMapper.toShortDto(event.getInitiator()))
             .withViews(event.getViews())
+            .withCommentsCount(event.getComments().size())
             .build();
     }
 }
