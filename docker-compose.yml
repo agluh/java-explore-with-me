@@ -10,7 +10,7 @@ services:
       - stats-db
     environment:
       DB_HOST: stats-db
-      DB_PORT: 5433
+      DB_PORT: 5432
       DB_NAME: stats
       DB_USER: stats
       DB_PASS: stats
@@ -19,8 +19,6 @@ services:
     image: postgres:14-alpine
     container_name: stats-db
     restart: always
-    ports:
-      - "5433:5432"
     environment:
       POSTGRES_DB: stats
       POSTGRES_USER: stats
@@ -39,7 +37,7 @@ services:
       - ewm-db
     environment:
       DB_HOST: ewm-db
-      DB_PORT: 5434
+      DB_PORT: 5432
       DB_NAME: main
       DB_USER: main
       DB_PASS: main
@@ -49,8 +47,6 @@ services:
     image: postgres:14-alpine
     container_name: ewm-db
     restart: always
-    ports:
-      - "5434:5432"
     environment:
       POSTGRES_DB: main
       POSTGRES_USER: main
