@@ -18,6 +18,8 @@ services:
   stats-db:
     image: postgres:14-alpine
     container_name: stats-db
+    ports:
+      - "5433:5432"
     restart: always
     environment:
       POSTGRES_DB: stats
@@ -46,6 +48,8 @@ services:
   ewm-db:
     image: postgres:14-alpine
     container_name: ewm-db
+    ports:
+      - "5434:5432"
     restart: always
     environment:
       POSTGRES_DB: main
