@@ -9,7 +9,7 @@ services:
     depends_on:
       - stats-db
     environment:
-      DB_HOST: localhost
+      DB_HOST: stats-db
       DB_PORT: 5433
       DB_NAME: stats
       DB_USER: stats
@@ -38,7 +38,7 @@ services:
     depends_on:
       - ewm-db
     environment:
-      DB_HOST: localhost
+      DB_HOST: ewm-db
       DB_PORT: 5434
       DB_NAME: main
       DB_USER: main
