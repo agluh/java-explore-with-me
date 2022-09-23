@@ -20,4 +20,4 @@ server:
 
 app:
   stats:
-    url: "http://localhost:8090"
+    url: ${STATS_SERVER_URL}
