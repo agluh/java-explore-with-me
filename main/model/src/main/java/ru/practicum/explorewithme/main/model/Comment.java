@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -24,13 +25,9 @@ import lombok.ToString;
 @ToString
 @Builder(setterPrefix = "with")
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "comments")
 public class Comment {
-
-    /* Needed for Hibernate */
-    protected Comment() {
-
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
