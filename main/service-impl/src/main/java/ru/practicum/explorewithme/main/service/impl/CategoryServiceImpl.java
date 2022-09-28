@@ -3,6 +3,7 @@ package ru.practicum.explorewithme.main.service.impl;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +23,7 @@ import ru.practicum.explorewithme.main.service.api.exception.CategoryNotFoundExc
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository repository;
-    private final EventService eventService;
+    @Lazy private final EventService eventService;
 
     @Override
     @Transactional
