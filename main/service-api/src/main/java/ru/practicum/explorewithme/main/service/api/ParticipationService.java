@@ -34,4 +34,9 @@ public interface ParticipationService {
      * Retrieves list of participation requests for event.
      */
     List<ParticipationRequest> getParticipationRequestsOfEvent(long userId, long eventId);
+
+    /**
+     * Rejects all pending participation requests of event.
+     */
+    void rejectAllPendingParticipationRequestsOfEvent(long eventId);
 }

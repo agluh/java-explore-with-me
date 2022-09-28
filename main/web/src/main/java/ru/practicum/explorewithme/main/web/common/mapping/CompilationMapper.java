@@ -1,13 +1,13 @@
 package ru.practicum.explorewithme.main.web.common.mapping;
 
 import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.practicum.explorewithme.main.model.EventsCompilation;
 import ru.practicum.explorewithme.main.web.common.message.CompilationDto;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CompilationMapper {
 
     private final EventMapper eventMapper;

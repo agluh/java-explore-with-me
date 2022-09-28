@@ -21,3 +21,4 @@ server:
 app:
   stats:
     url: ${STATS_SERVER_URL}
+  name: "main"

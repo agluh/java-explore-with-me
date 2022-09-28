@@ -2,6 +2,7 @@ package ru.practicum.explorewithme.main.web.admin.message;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import lombok.ToString;
 @ToString
 public class NewUserDto {
 
+    @NotNull
     @Email
     private String email;
 

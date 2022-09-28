@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.main.model;
 
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -39,15 +40,16 @@ public class ParticipationRequest {
     @EqualsAndHashCode.Include
     private long id;
 
-    @ManyToOne
-    @JoinColumn(name = "event_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
-    @ManyToOne
-    @JoinColumn(name = "requester_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "requester_id", nullable = false)
     private User requester;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ParticipationStatus status;
 
     private LocalDateTime createdOn;

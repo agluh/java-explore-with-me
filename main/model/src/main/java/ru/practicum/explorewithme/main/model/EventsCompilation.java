@@ -3,6 +3,7 @@ package ru.practicum.explorewithme.main.model;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,6 +40,7 @@ public class EventsCompilation {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Column(nullable = false)
     private String title;
 
     private boolean pinned;

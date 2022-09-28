@@ -1,13 +1,19 @@
 package ru.practicum.explorewithme.main.web.common.mapping;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.practicum.explorewithme.main.model.Event;
+import ru.practicum.explorewithme.main.service.api.contract.AdminUpdateEventRequest;
+import ru.practicum.explorewithme.main.service.api.contract.NewEventRequest;
+import ru.practicum.explorewithme.main.service.api.contract.UpdateEventRequest;
+import ru.practicum.explorewithme.main.web.admin.message.AdminUpdateEventDto;
 import ru.practicum.explorewithme.main.web.common.message.EventFullDto;
 import ru.practicum.explorewithme.main.web.common.message.EventShortDto;
+import ru.practicum.explorewithme.main.web.pub.message.NewEventDto;
+import ru.practicum.explorewithme.main.web.pub.message.UpdateEventDto;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EventMapper {
 
     private final CategoryMapper categoryMapper;
@@ -44,6 +50,50 @@ public class EventMapper {
             .withPaid(event.isPaid())
             .withInitiator(userMapper.toShortDto(event.getInitiator()))
             .withViews(event.getViews())
+            .build();
+    }
+
+    public NewEventRequest fromRequest(NewEventDto dto, long userId) {
+        return NewEventRequest.builder()
+            .withTitle(dto.getTitle())
+            .withAnnotation(dto.getAnnotation())
+            .withDescription(dto.getDescription())
+            .withCategory(dto.getCategory())
+            .withEventDate(dto.getEventDate())
+            .withLocation(dto.getLocation())
+            .withPaid(dto.getPaid())
+            .withRequestModeration(dto.getRequestModeration())
+            .withParticipantLimit(dto.getParticipantLimit())
+            .withInitiator(userId)
+            .build();
+    }
+
+    public UpdateEventRequest fromRequest(UpdateEventDto dto, long userId) {
+        return UpdateEventRequest.builder()
+            .withEventId(dto.getEventId())
+            .withTitle(dto.getTitle())
+            .withAnnotation(dto.getAnnotation())
+            .withDescription(dto.getDescription())
+            .withCategory(dto.getCategory())
+            .withEventDate(dto.getEventDate())
+            .withPaid(dto.getPaid())
+            .withParticipantLimit(dto.getParticipantLimit())
+            .withRequester(userId)
+            .build();
+    }
+
+    public AdminUpdateEventRequest fromRequest(AdminUpdateEventDto dto, long eventId) {
+        return AdminUpdateEventRequest.builder()
+            .withEventId(eventId)
+            .withTitle(dto.getTitle())
+            .withAnnotation(dto.getAnnotation())
+            .withDescription(dto.getDescription())
+            .withCategory(dto.getCategory())
+            .withEventDate(dto.getEventDate())
+            .withLocation(dto.getLocation())
+            .withPaid(dto.getPaid())
+            .withRequestModeration(dto.getRequestModeration())
+            .withParticipantLimit(dto.getParticipantLimit())
             .build();
     }
 }

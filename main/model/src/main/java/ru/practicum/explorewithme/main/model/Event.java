@@ -43,14 +43,17 @@ public class Event {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String annotation;
 
+    @Column(nullable = false)
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "category_id", nullable = false)
     private EventCategory category;
 
     @Column(name = "event_date")
@@ -74,15 +77,16 @@ public class Event {
     @Column(name = "request_moderation")
     private boolean requestModeration;
 
-    @ManyToOne
-    @JoinColumn(name = "initiator_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "initiator_id", nullable = false)
     private User initiator;
 
     @Enumerated(EnumType.STRING)
     @Builder.Default
+    @Column(nullable = false)
     private EventState state = EventState.PENDING;
 
-    @Column(name = "created_on")
+    @Column(name = "created_on", nullable = false)
     private LocalDateTime createdOn;
 
     @Column(name = "published_on")

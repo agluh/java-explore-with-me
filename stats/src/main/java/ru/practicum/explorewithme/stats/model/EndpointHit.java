@@ -27,7 +27,7 @@ public class EndpointHit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    Long id;
+    private Long id;
 
     private String app;
 

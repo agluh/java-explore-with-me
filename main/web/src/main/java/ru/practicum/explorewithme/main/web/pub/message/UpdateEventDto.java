@@ -2,6 +2,7 @@ package ru.practicum.explorewithme.main.web.pub.message;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import lombok.EqualsAndHashCode;
@@ -33,6 +34,7 @@ public class UpdateEventDto {
     @Positive
     private Long category;
 
+    @Future
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
 

@@ -3,9 +3,10 @@ package ru.practicum.explorewithme.main.service.impl;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
-import javax.transaction.Transactional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.main.model.Event;
 import ru.practicum.explorewithme.main.model.EventState;
 import ru.practicum.explorewithme.main.model.ParticipationRequest;
@@ -25,13 +26,17 @@ import ru.practicum.explorewithme.main.service.api.exception.ParticipationReques
 import ru.practicum.explorewithme.main.service.api.exception.UserNotFoundException;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ParticipationServiceImpl implements ParticipationService {
 
     private final ParticipationRequestRepository repository;
     private final EventService eventService;
     private final UserService userService;
     private final Clock clock;
+
+    @Lazy
+    private final ParticipationServiceImpl self;
 
     @Override
     @Transactional
@@ -41,6 +46,11 @@ public class ParticipationServiceImpl implements ParticipationService {
 
         User user = userService.findUser(userId)
             .orElseThrow(() -> new UserNotFoundException("not found"));
+
+        if (repository.getParticipationRequestOfUserInEvent(userId, eventId).isPresent()) {
+            throw new DuplicatedParticipationRequestsAreNotAllowedException(
+                "user is a participant already");
+        }
 
         if (event.getInitiator().equals(user)) {
             throw new EventInitiatorCanNotBeParticipantException("initiator can not participate");
@@ -67,11 +77,6 @@ public class ParticipationServiceImpl implements ParticipationService {
 
         if (!event.isRequestModeration()) {
             request.setStatus(ParticipationStatus.CONFIRMED);
-        }
-
-        if (repository.getParticipationRequestOfUserInEvent(userId, eventId).isPresent()) {
-            throw new DuplicatedParticipationRequestsAreNotAllowedException(
-                "user is a participant already");
         }
 
         repository.save(request);
@@ -101,6 +106,7 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     @Override
+    @Transactional
     public ParticipationRequest confirmParticipationRequest(long userId, long eventId, long requestId) {
         ParticipationRequest request = repository.findById(requestId)
             .orElseThrow(() -> new ParticipationRequestNotFoundException("not found"));
@@ -113,7 +119,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         }
 
         if (currentCount == limit - 1) {
-            rejectAllPendingParticipationRequestsOfEvent(request.getEvent().getId());
+            self.rejectAllPendingParticipationRequestsOfEvent(request.getEvent().getId());
         }
 
         request.setStatus(ParticipationStatus.CONFIRMED);
@@ -126,6 +132,7 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     @Override
+    @Transactional
     public ParticipationRequest rejectParticipationRequest(long userId, long eventId, long requestId) {
         ParticipationRequest request = repository.findById(requestId)
             .orElseThrow(() -> new ParticipationRequestNotFoundException("not found"));
@@ -147,7 +154,8 @@ public class ParticipationServiceImpl implements ParticipationService {
         return repository.findAllByEvent_Id(eventId);
     }
 
-    private void rejectAllPendingParticipationRequestsOfEvent(long eventId) {
+    @Override
+    public void rejectAllPendingParticipationRequestsOfEvent(long eventId) {
         List<ParticipationRequest> pendingRequests =
             repository.findAllPendingParticipationRequestsOfEvent(eventId);
 

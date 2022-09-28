@@ -2,6 +2,8 @@ package ru.practicum.explorewithme.main.web.pub.message;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import lombok.EqualsAndHashCode;
@@ -31,15 +33,19 @@ public class NewEventDto {
     @Positive
     private Long category;
 
+    @Future
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
 
+    @NotNull
     private Location location;
 
+    @NotNull
     private Boolean paid;
 
     @PositiveOrZero
     private Integer participantLimit;
 
+    @NotNull
     private Boolean requestModeration;
 }

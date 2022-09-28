@@ -1,5 +1,6 @@
 package ru.practicum.explorewithme.main.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,5 +32,6 @@ public class EventCategory {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String name;
 }

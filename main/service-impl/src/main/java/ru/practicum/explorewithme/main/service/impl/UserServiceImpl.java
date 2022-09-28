@@ -2,17 +2,19 @@ package ru.practicum.explorewithme.main.service.impl;
 
 import java.util.List;
 import java.util.Optional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.main.model.User;
 import ru.practicum.explorewithme.main.repository.UserRepository;
 import ru.practicum.explorewithme.main.service.api.UserService;
 import ru.practicum.explorewithme.main.service.api.exception.EmailIsNotUniqueException;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
@@ -28,6 +30,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User registerUser(String email, String name) {
         User user = new User(null, email, name);
 
@@ -40,6 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void removeUser(long userId) {
         repository.deleteById(userId);
     }
