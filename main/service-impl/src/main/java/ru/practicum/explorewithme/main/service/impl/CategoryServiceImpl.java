@@ -59,7 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
         EventCategory category = repository.findById(categoryId).orElseThrow(() ->
             new CategoryNotFoundException("not found"));
 
-        if(!eventService.findEventsOfCategory(categoryId).isEmpty()) {
+        if (!eventService.findEventsOfCategory(categoryId).isEmpty()) {
             throw new CategoryIsUsedException("category is used");
         }
 
