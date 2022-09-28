@@ -54,19 +54,10 @@ public class EventServiceImpl implements EventService {
             throw new TooLittleTimeLeftBeforeEventStartException("too little time before event");
         }
 
-        Event event = Event.builder()
-            .withTitle(request.getTitle())
-            .withAnnotation(request.getAnnotation())
-            .withDescription(request.getDescription())
-            .withCategory(category)
-            .withEventDate(request.getEventDate())
-            .withLocation(request.getLocation())
-            .withPaid(request.isPaid())
-            .withParticipantLimit(request.getParticipantLimit())
-            .withRequestModeration(request.isRequestModeration())
-            .withInitiator(initiator)
-            .withCreatedOn(LocalDateTime.now(clock))
-            .build();
+        Event event = request.toModel();
+        event.setCategory(category);
+        event.setInitiator(initiator);
+        event.setCreatedOn(LocalDateTime.now(clock));
 
         repository.save(event);
 
