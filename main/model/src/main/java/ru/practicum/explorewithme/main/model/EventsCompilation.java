@@ -11,10 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.Size;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -27,13 +30,9 @@ import lombok.ToString;
 @ToString
 @Builder(setterPrefix = "with")
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "compilations")
 public class EventsCompilation {
-
-    /* Needed for Hibernate */
-    protected EventsCompilation() {
-
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +40,7 @@ public class EventsCompilation {
     private Long id;
 
     @Column(nullable = false)
+    @Size(min = 1, max = 255)
     private String title;
 
     private boolean pinned;

@@ -5,12 +5,12 @@ import java.time.LocalDateTime;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.validator.constraints.Length;
 
 @NoArgsConstructor
 @Getter
@@ -22,13 +22,13 @@ public class UpdateEventDto {
     @Positive
     private Long eventId;
 
-    @Length(min = 3, max = 120)
+    @Size(min = 3, max = 120)
     private String title;
 
-    @Length(min = 20, max = 2000)
+    @Size(min = 20, max = 2000)
     private String annotation;
 
-    @Length(min = 20, max = 7000)
+    @Size(min = 20, max = 7000)
     private String description;
 
     @Positive
