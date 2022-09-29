@@ -1,6 +1,5 @@
 package ru.practicum.explorewithme.main.service.api;
 
-import java.util.List;
 import ru.practicum.explorewithme.main.model.Comment;
 import ru.practicum.explorewithme.main.service.api.exception.EventNotFoundException;
 import ru.practicum.explorewithme.main.service.api.exception.OnlyParticipantCanCommentException;
@@ -17,10 +16,5 @@ public interface CommentService {
      * @throws UserNotFoundException in case user not found
      * @throws EventNotFoundException in case event not found
      */
-    Comment commentEvent(long userId, long eventId, String comment);
-
-    /**
-     * Lists comments for event.
-     */
-    List<Comment> findCommentsForEvent(long eventId, int from, int size);
+    Comment commentEvent(long userId, long eventId, String message);
 }

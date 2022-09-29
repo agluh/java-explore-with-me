@@ -42,7 +42,7 @@ public class Comment {
     @JoinColumn(name = "author_id")
     private User author;
 
-    private String comment;
+    private String message;
 
     private LocalDateTime createdAt;
 }

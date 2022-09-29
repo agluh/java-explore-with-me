@@ -17,7 +17,7 @@ public class CommentDto {
 
     private UserShortDto author;
 
-    private String comment;
+    private String message;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;

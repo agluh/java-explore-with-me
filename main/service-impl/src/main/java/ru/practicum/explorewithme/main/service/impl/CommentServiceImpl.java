@@ -2,11 +2,9 @@ package ru.practicum.explorewithme.main.service.impl;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.explorewithme.main.model.Comment;
 import ru.practicum.explorewithme.main.model.Event;
@@ -14,7 +12,6 @@ import ru.practicum.explorewithme.main.model.EventState;
 import ru.practicum.explorewithme.main.model.ParticipationRequest;
 import ru.practicum.explorewithme.main.model.ParticipationStatus;
 import ru.practicum.explorewithme.main.model.User;
-import ru.practicum.explorewithme.main.repository.CommentRepository;
 import ru.practicum.explorewithme.main.service.api.CommentService;
 import ru.practicum.explorewithme.main.service.api.EventService;
 import ru.practicum.explorewithme.main.service.api.ParticipationService;
@@ -28,19 +25,22 @@ import ru.practicum.explorewithme.main.service.api.exception.UserNotFoundExcepti
 @AllArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
-    private final CommentRepository repository;
     private final UserService userService;
     private final EventService eventService;
     private final ParticipationService participationService;
     private final Clock clock;
 
     @Override
-    public Comment commentEvent(long userId, long eventId, String commentText) {
+    public Comment commentEvent(long userId, long eventId, String message) {
         User user = userService.findUser(userId).orElseThrow(
             () -> new UserNotFoundException("not found"));
 
         Event event = eventService.findEvent(eventId).orElseThrow(
             () -> new EventNotFoundException("not found"));
+
+        if (event.getState() != EventState.PUBLISHED) {
+            throw new OnlyPublishedEventsCanBeCommentedException("event is not published");
+        }
 
         Set<User> participants = participationService.getParticipationRequestsOfEventWithStatus(eventId,
             ParticipationStatus.CONFIRMED)
@@ -48,17 +48,13 @@ public class CommentServiceImpl implements CommentService {
             .map(ParticipationRequest::getRequester)
             .collect(Collectors.toSet());
 
-        if (event.getState() != EventState.PUBLISHED) {
-            throw new OnlyPublishedEventsCanBeCommentedException("event is not published");
-        }
-
         if (!event.getInitiator().equals(user) && !participants.contains(user)) {
             throw new OnlyParticipantCanCommentException(
                 "only initiator or participant can comment");
         }
 
         Comment comment = Comment.builder()
-            .withComment(commentText)
+            .withMessage(message)
             .withAuthor(user)
             .withEvent(event)
             .withCreatedAt(LocalDateTime.now(clock))
@@ -67,10 +63,5 @@ public class CommentServiceImpl implements CommentService {
         eventService.addComment(eventId, comment);
 
         return comment;
-    }
-
-    @Override
-    public List<Comment> findCommentsForEvent(long eventId, int from, int size) {
-        return repository.findAllByEvent_Id(eventId, PageRequest.of(from, size));
     }
 }

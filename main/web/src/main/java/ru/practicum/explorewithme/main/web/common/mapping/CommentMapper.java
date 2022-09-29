@@ -13,7 +13,7 @@ public class CommentMapper {
 
     public CommentDto toDto(Comment comment) {
         return CommentDto.builder()
-            .withComment(comment.getComment())
+            .withMessage(comment.getMessage())
             .withAuthor(userMapper.toShortDto(comment.getAuthor()))
             .withCreatedAt(comment.getCreatedAt())
             .build();

@@ -6,5 +6,6 @@
 
   <include file="init-schema.xml" relativeToChangelogFile="true"/>
   <include file="add-comments.xml" relativeToChangelogFile="true"/>
+  <include file="update-comments.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

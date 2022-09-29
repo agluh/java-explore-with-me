@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+  <changeSet id="update-comments-table" author="alexg">
+    <renameColumn tableName="comments" oldColumnName="comment" newColumnName="message"/>
+  </changeSet>
+
+  <changeSet id="add-idx-to-comments-table" author="alexg">
+    <createIndex tableName="comments" indexName="idx_comments_author_id">
+      <column name="author_id"/>
+    </createIndex>
+    <createIndex tableName="comments" indexName="idx_comments_event_id">
+      <column name="event_id"/>
+    </createIndex>
+  </changeSet>
+
+  <changeSet id="update-comments-table-2" author="alexg">
+    <dropForeignKeyConstraint baseTableName="comments" constraintName="fk_comments_event_id"/>
+    <addForeignKeyConstraint
+      baseTableName="comments"
+      baseColumnNames="event_id"
+      constraintName="fk_comments_event_id"
+      referencedTableName="events"
+      referencedColumnNames="id"
+      deleteCascade="true"/>
+  </changeSet>
+
+</databaseChangeLog>
