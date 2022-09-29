@@ -10,7 +10,7 @@
         <constraints nullable="false" primaryKey="true"/>
       </column>
       <column name="name" type="varchar(255)">
-        <constraints unique="true"/>
+        <constraints unique="true" nullable="false"/>
       </column>
     </createTable>
   </changeSet>
@@ -21,7 +21,7 @@
         <constraints nullable="false" primaryKey="true"/>
       </column>
       <column name="email" type="varchar(255)">
-        <constraints unique="true"/>
+        <constraints unique="true" nullable="false"/>
       </column>
       <column name="name" type="varchar(255)">
         <constraints nullable="false"/>

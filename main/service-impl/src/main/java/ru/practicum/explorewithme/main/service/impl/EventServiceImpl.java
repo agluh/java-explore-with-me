@@ -5,9 +5,11 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
-import lombok.AllArgsConstructor;
+import java.util.Set;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.main.model.Comment;
 import ru.practicum.explorewithme.main.model.Event;
 import ru.practicum.explorewithme.main.model.EventCategory;
@@ -28,7 +30,8 @@ import ru.practicum.explorewithme.main.service.api.exception.UserIsNotAnInitiato
 import ru.practicum.explorewithme.main.service.api.exception.UserNotFoundException;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class EventServiceImpl implements EventService {
 
     private final EventRepository repository;
@@ -37,6 +40,7 @@ public class EventServiceImpl implements EventService {
     private final Clock clock;
 
     @Override
+    @Transactional
     public Event addEvent(NewEventRequest request) {
         User initiator = userService.findUser(request.getInitiator()).orElseThrow(() ->
             new UserNotFoundException("not found"));
@@ -51,19 +55,10 @@ public class EventServiceImpl implements EventService {
             throw new TooLittleTimeLeftBeforeEventStartException("too little time before event");
         }
 
-        Event event = Event.builder()
-            .withTitle(request.getTitle())
-            .withAnnotation(request.getAnnotation())
-            .withDescription(request.getDescription())
-            .withCategory(category)
-            .withEventDate(request.getEventDate())
-            .withLocation(request.getLocation())
-            .withPaid(request.isPaid())
-            .withParticipantLimit(request.getParticipantLimit())
-            .withRequestModeration(request.isRequestModeration())
-            .withInitiator(initiator)
-            .withCreatedOn(LocalDateTime.now(clock))
-            .build();
+        Event event = request.toModel();
+        event.setCategory(category);
+        event.setInitiator(initiator);
+        event.setCreatedOn(LocalDateTime.now(clock));
 
         repository.save(event);
 
@@ -71,6 +66,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public Event updateEvent(UpdateEventRequest request) {
         Event event = repository.findById(request.getEventId()).orElseThrow(()
             -> new EventNotFoundException("not found"));
@@ -127,6 +123,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public Event updateEvent(AdminUpdateEventRequest request) {
         Event event = repository.findById(request.getEventId()).orElseThrow(()
             -> new EventNotFoundException("not found"));
@@ -176,9 +173,10 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public Event cancelEvent(long userId, long eventId) {
-        Event event = repository.findById(eventId).orElseThrow(()
-            -> new EventNotFoundException("not found"));
+        Event event = repository.findById(eventId).orElseThrow(() ->
+            new EventNotFoundException("not found"));
 
         User requester = userService.findUser(userId).orElseThrow(() ->
             new UserNotFoundException("not found"));
@@ -187,8 +185,8 @@ public class EventServiceImpl implements EventService {
             throw new UserIsNotAnInitiatorOfEventException("user is not an initiator of event");
         }
 
-        if (event.getState() == EventState.PUBLISHED) {
-            throw new EventIsNotAbleToChangeException("event is published");
+        if (event.getState() != EventState.PENDING) {
+            throw new EventIsNotAbleToChangeException("event is not in pending state");
         }
 
         event.setState(EventState.CANCELED);
@@ -199,6 +197,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public Event publishEvent(long eventId) {
         Event event = repository.findById(eventId).orElseThrow(() ->
             new EventNotFoundException("not found"));
@@ -223,6 +222,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public Event rejectEvent(long eventId) {
         Event event = repository.findById(eventId).orElseThrow(()
             -> new EventNotFoundException("not found"));
@@ -259,19 +259,12 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Optional<Event> getPublishedEvent(long eventId) {
-        Optional<Event> eventOpt = repository.findById(eventId);
+        Optional<Event> eventOpt = repository.findByIdAndState(eventId, EventState.PUBLISHED);
 
-        if (eventOpt.isPresent()) {
-            Event event = eventOpt.get();
-
-            if (event.getState() != EventState.PUBLISHED) {
-                throw new EventNotFoundException();
-            }
-
-            event.increaseViews();
-
-            repository.save(event);
-        }
+        eventOpt.ifPresent(e -> {
+            e.increaseViews();
+            repository.save(e);
+        });
 
         return eventOpt;
     }
@@ -298,6 +291,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<Event> findEvents(Set<Long> ids) {
+        return repository.findEventsByIdIn(ids);
+    }
+
+    @Override
     public List<Event> getEvents(List<Long> users, List<EventState> states, List<Long> categories,
         LocalDateTime rangeStart, LocalDateTime rangeEnd, int from, int size) {
         return repository.searchForEvents(users, states, categories,
@@ -305,6 +303,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public void updateCountOfConfirmedParticipants(long eventId, int count) {
         Event event = repository.findById(eventId).orElseThrow(()
             -> new EventNotFoundException("not found"));
@@ -322,5 +321,10 @@ public class EventServiceImpl implements EventService {
         event.addComment(comment);
 
         repository.save(event);
+    }
+
+    @Override
+    public List<Event> findEventsOfCategory(long categoryId) {
+        return repository.findEventsByCategory_Id(categoryId);
     }
 }

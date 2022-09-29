@@ -2,6 +2,7 @@ package ru.practicum.explorewithme.main.service.api;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import ru.practicum.explorewithme.main.model.EventsCompilation;
 import ru.practicum.explorewithme.main.service.api.exception.CompilationNotFoundException;
 
@@ -10,7 +11,7 @@ public interface CompilationService {
     /**
      * Creates a new event`s compilation.
      */
-    EventsCompilation createCompilationOfEvents(String title, boolean isPinned, List<Long> events);
+    EventsCompilation createCompilationOfEvents(String title, boolean isPinned, Set<Long> events);
 
     /**
      * Removes a compilation.

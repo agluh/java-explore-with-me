@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.explorewithme.main.service.api.CommentService;
 import ru.practicum.explorewithme.main.service.api.EventService;
 import ru.practicum.explorewithme.main.service.api.ParticipationService;
-import ru.practicum.explorewithme.main.service.api.contract.NewEventRequest;
-import ru.practicum.explorewithme.main.service.api.contract.UpdateEventRequest;
 import ru.practicum.explorewithme.main.service.api.exception.EventNotFoundException;
 import ru.practicum.explorewithme.main.web.common.mapping.EventMapper;
 import ru.practicum.explorewithme.main.web.common.mapping.ParticipationRequestMapper;
@@ -56,19 +54,7 @@ public class UserController {
         @PathVariable("id") long userId,
         @RequestBody @Valid UpdateEventDto dto
     ) {
-        UpdateEventRequest request = UpdateEventRequest.builder()
-            .withEventId(dto.getEventId())
-            .withTitle(dto.getTitle())
-            .withAnnotation(dto.getAnnotation())
-            .withDescription(dto.getDescription())
-            .withCategory(dto.getCategory())
-            .withEventDate(dto.getEventDate())
-            .withPaid(dto.getPaid())
-            .withParticipantLimit(dto.getParticipantLimit())
-            .withRequester(userId)
-            .build();
-
-        return eventMapper.toDto(eventService.updateEvent(request));
+        return eventMapper.toDto(eventService.updateEvent(eventMapper.fromRequest(dto, userId)));
     }
 
     @PostMapping("/events")
@@ -76,20 +62,7 @@ public class UserController {
         @PathVariable("id") long userId,
         @RequestBody @Valid NewEventDto dto
     ) {
-        NewEventRequest request = NewEventRequest.builder()
-            .withTitle(dto.getTitle())
-            .withAnnotation(dto.getAnnotation())
-            .withDescription(dto.getDescription())
-            .withCategory(dto.getCategory())
-            .withEventDate(dto.getEventDate())
-            .withLocation(dto.getLocation())
-            .withPaid(dto.getPaid())
-            .withRequestModeration(dto.getRequestModeration())
-            .withParticipantLimit(dto.getParticipantLimit())
-            .withInitiator(userId)
-            .build();
-
-        return eventMapper.toDto(eventService.addEvent(request));
+        return eventMapper.toDto(eventService.addEvent(eventMapper.fromRequest(dto, userId)));
     }
 
     @GetMapping("/events/{eventId}")

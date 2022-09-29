@@ -16,12 +16,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Size;
 import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -34,27 +36,29 @@ import lombok.ToString;
 @ToString
 @Builder(setterPrefix = "with")
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "events")
 public class Event {
-
-    /* Needed for Hibernate */
-    protected Event() {
-
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Column(nullable = false)
+    @Size(min = 3, max = 120)
     private String title;
 
+    @Column(nullable = false)
+    @Size(min = 20, max = 2000)
     private String annotation;
 
+    @Column(nullable = false)
+    @Size(min = 20, max = 7000)
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "category_id", nullable = false)
     private EventCategory category;
 
     @Column(name = "event_date")
@@ -78,15 +82,16 @@ public class Event {
     @Column(name = "request_moderation")
     private boolean requestModeration;
 
-    @ManyToOne
-    @JoinColumn(name = "initiator_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "initiator_id", nullable = false)
     private User initiator;
 
     @Enumerated(EnumType.STRING)
     @Builder.Default
+    @Column(nullable = false)
     private EventState state = EventState.PENDING;
 
-    @Column(name = "created_on")
+    @Column(name = "created_on", nullable = false)
     private LocalDateTime createdOn;
 
     @Column(name = "published_on")

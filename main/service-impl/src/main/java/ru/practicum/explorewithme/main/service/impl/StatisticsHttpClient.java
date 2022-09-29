@@ -19,27 +19,35 @@ import ru.practicum.explorewithme.main.service.api.StatisticsClient;
 @Service
 public class StatisticsHttpClient implements StatisticsClient {
 
-    private String statsUrl;
+    private final String statsUrl;
+    private final String appName;
+    private final HttpClient client;
+    private final ObjectMapper objectMapper;
 
-    private HttpClient client;
-
-    public StatisticsHttpClient(@Value("${app.stats.url}") String statsUrl) {
+    public StatisticsHttpClient(
+        @Value("${app.stats.url}") String statsUrl,
+        @Value("${app.name}") String appName,
+        ObjectMapper objectMapper
+    ) {
         this.statsUrl = statsUrl;
-        client = HttpClient.newBuilder().build();
+        this.appName = appName;
+        this.objectMapper = objectMapper;
+        client = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(2))
+            .build();
     }
 
     @Override
     @SneakyThrows
     public void saveEndpointHit(String uri, String ip) {
         Hit hit = new Hit(
-            "main",
+            appName,
             uri,
             ip,
             LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
         );
 
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writeValueAsString(hit);
+        String requestBody = objectMapper.writeValueAsString(hit);
 
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(statsUrl + "/hit"))

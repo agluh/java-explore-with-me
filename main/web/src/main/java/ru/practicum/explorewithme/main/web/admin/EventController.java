@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,14 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.explorewithme.main.model.EventState;
 import ru.practicum.explorewithme.main.service.api.EventService;
-import ru.practicum.explorewithme.main.service.api.contract.AdminUpdateEventRequest;
 import ru.practicum.explorewithme.main.web.admin.message.AdminUpdateEventDto;
 import ru.practicum.explorewithme.main.web.common.mapping.EventMapper;
 import ru.practicum.explorewithme.main.web.common.message.EventFullDto;
 
 @RestController("adminEventController")
 @RequestMapping("/admin/events")
-@Validated
 @AllArgsConstructor
 public class EventController {
 
@@ -61,20 +58,7 @@ public class EventController {
         @PathVariable(name = "id") long eventId,
         @RequestBody @Valid AdminUpdateEventDto dto
     ) {
-        AdminUpdateEventRequest request = AdminUpdateEventRequest.builder()
-            .withEventId(eventId)
-            .withTitle(dto.getTitle())
-            .withAnnotation(dto.getAnnotation())
-            .withDescription(dto.getDescription())
-            .withCategory(dto.getCategory())
-            .withEventDate(dto.getEventDate())
-            .withLocation(dto.getLocation())
-            .withPaid(dto.getPaid())
-            .withRequestModeration(dto.getRequestModeration())
-            .withParticipantLimit(dto.getParticipantLimit())
-            .build();
-
-        return mapper.toDto(service.updateEvent(request));
+        return mapper.toDto(service.updateEvent(mapper.fromRequest(dto, eventId)));
     }
 
     @PatchMapping("/{id}/publish")

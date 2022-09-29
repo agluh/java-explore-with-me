@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import ru.practicum.explorewithme.main.model.Comment;
+import java.util.Set;
 import ru.practicum.explorewithme.main.model.Event;
 import ru.practicum.explorewithme.main.model.EventState;
 import ru.practicum.explorewithme.main.service.api.contract.AdminUpdateEventRequest;
@@ -102,6 +103,11 @@ public interface EventService {
     Optional<Event> findEvent(long eventId);
 
     /**
+     * Retrieves list of events.
+     */
+    List<Event> findEvents(Set<Long> ids);
+
+    /**
      * Retrieves events.
      */
     List<Event> getEvents(
@@ -114,7 +120,12 @@ public interface EventService {
         int size
     );
 
+    /**
+     * Updates count of confirmed participants.
+     */
     void updateCountOfConfirmedParticipants(long eventId, int count);
+
+    List<Event> findEventsOfCategory(long categoryId);
 
     /**
      * Adds a comment to event.
