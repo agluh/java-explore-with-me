@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+  <changeSet id="create-categories-table" author="alexg">
+    <createTable tableName="categories">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="name" type="varchar(255)">
+        <constraints unique="true" nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="create-users-table" author="alexg">
+    <createTable tableName="users">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="email" type="varchar(255)">
+        <constraints unique="true" nullable="false"/>
+      </column>
+      <column name="name" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="create-events-table" author="alexg">
+    <createTable tableName="events">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="title" type="varchar(120)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="annotation" type="varchar(2000)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="description" type="varchar(7000)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="category_id" type="bigint">
+        <constraints nullable="false" foreignKeyName="fk_events_category_id"
+          references="categories(id)"/>
+      </column>
+      <column name="event_date" type="datetime">
+        <constraints nullable="false"/>
+      </column>
+      <column name="location_lat" type="double">
+        <constraints nullable="false"/>
+      </column>
+      <column name="location_lng" type="double">
+        <constraints nullable="false"/>
+      </column>
+      <column name="paid" type="bool">
+        <constraints nullable="false"/>
+      </column>
+      <column name="participant_limit" type="int">
+        <constraints nullable="false"/>
+      </column>
+      <column name="confirmed_requests" type="int">
+        <constraints nullable="false"/>
+      </column>
+      <column name="request_moderation" type="bool">
+        <constraints nullable="false"/>
+      </column>
+      <column name="initiator_id" type="bigint">
+        <constraints nullable="false" foreignKeyName="fk_events_initiator_id"
+          references="users(id)"/>
+      </column>
+      <column name="state" type="varchar(64)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="created_on" type="datetime">
+        <constraints nullable="false"/>
+      </column>
+      <column name="published_on" type="datetime">
+        <constraints nullable="true"/>
+      </column>
+      <column name="views" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="create-compilations-table" author="alexg">
+    <createTable tableName="compilations">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="title" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="pinned" type="bool">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="events_compilations">
+      <column name="event_id" type="bigint">
+        <constraints nullable="false" foreignKeyName="fk_events_compilations_event_id"
+          references="events(id)"/>
+      </column>
+      <column name="compilation_id" type="bigint">
+        <constraints nullable="false" foreignKeyName="fk_events_compilations_compilation_id"
+          references="compilations(id)"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="create-request-table" author="alexg">
+    <createTable tableName="requests">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="event_id" type="bigint">
+        <constraints nullable="false" foreignKeyName="fk_requests_event_id"
+          references="events(id)"/>
+      </column>
+      <column name="requester_id" type="bigint">
+        <constraints nullable="false" foreignKeyName="fk_events_requester_id"
+          references="users(id)"/>
+      </column>
+      <column name="status" type="varchar(64)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="created_on" type="datetime">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+</databaseChangeLog>
